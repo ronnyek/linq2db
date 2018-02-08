@@ -35,7 +35,7 @@ public class Issue994Tests : TestBase
 	}
 
 	[Test]
-	public void LinqToDbIssue()
+	public void TestIssue()
 	{
 		SetMappings();
 
@@ -43,7 +43,11 @@ public class Issue994Tests : TestBase
 
 		var listTest = LoadTest();
 
+		Assert.Null(((Dog)listTest.First()).Bla);
+
 		var listTest2 = LoadTest2();
+
+		Assert.NotNull(((Dog)listTest2.First()).Bla);
 	}
 
 	private void InsertData()
@@ -92,7 +96,7 @@ public class Issue994Tests : TestBase
 	{
 		using (var db = new TestDataConnection())
 		{
-			return db.GetTable<Animal>().LoadWithDerrived<Animal, Dog>(x => x.Bla).ToList();
+			return db.GetTable<Animal>().LoadWithDerived<Animal, Dog>(x => x.Bla).ToList();
 		}
 	}
 

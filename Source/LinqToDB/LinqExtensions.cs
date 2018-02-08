@@ -189,7 +189,7 @@ namespace LinqToDB
 		#region LoadWith
 
 		static readonly MethodInfo _loadWithMethodInfo = MemberHelper.MethodOf(() => LoadWith<int>(null, null)).GetGenericMethodDefinition();
-		static readonly MethodInfo _loadWithDerrivedMethodInfo = MemberHelper.MethodOf(() => LoadWithDerrived<int, int>(null, null)).GetGenericMethodDefinition();
+		static readonly MethodInfo _loadWithDerivedMethodInfo = MemberHelper.MethodOf(() => LoadWithDerived<int, int>(null, null)).GetGenericMethodDefinition();
 
 		/// <summary>
 		/// Specifies associations, that should be loaded for each loaded record from current table.
@@ -237,7 +237,7 @@ namespace LinqToDB
 
 		[LinqTunnel]
 		[Pure]
-		public static ITable<T> LoadWithDerrived<T, Tr>(
+		public static ITable<T> LoadWithDerived<T, Tr>(
 			[NotNull]                this ITable<T> table,
 			[NotNull, InstantHandle] Expression<Func<Tr, object>> selector)
 		{
@@ -245,7 +245,7 @@ namespace LinqToDB
 
 			table.Expression = Expression.Call(
 				null,
-				_loadWithDerrivedMethodInfo.MakeGenericMethod(typeof(T), typeof(Tr)),
+				_loadWithDerivedMethodInfo.MakeGenericMethod(typeof(T), typeof(Tr)),
 				new[] { table.Expression, Expression.Quote(selector) });
 
 			return table;
