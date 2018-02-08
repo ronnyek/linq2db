@@ -27,7 +27,11 @@ public class Issue994Tests : TestBase
 		public string Discriminator { get; set; }
 	}
 
-	public class Dog : Animal
+	public class WildAnimal : Animal
+	{
+	}
+
+	public class Dog : WildAnimal
 	{
 		public Eye Bla { get; set; }
 
@@ -68,7 +72,6 @@ public class Issue994Tests : TestBase
 		using (var db = new TestDataConnection())
 		{
 			db.SetCommand("DROP TABLE IF EXISTS `Animals`").Execute();
-			db.SetCommand("DROP TABLE IF EXISTS `Dogs`").Execute();
 			db.SetCommand("DROP TABLE IF EXISTS `Eyes`").Execute();
 			db.SetCommand("CREATE TABLE `Animals` ( `Name` TEXT,`Discriminator` TEXT, `EyeId` INTEGER )").Execute();
 			db.SetCommand("CREATE TABLE `Eyes` ( `Id` INTEGER NOT NULL PRIMARY KEY, `Xy` TEXT )").Execute();
@@ -106,6 +109,7 @@ public class Issue994Tests : TestBase
 		mappingBuilder.Entity<Animal>()
 			.HasTableName("Animals")
 			.Inheritance(x => x.Discriminator, "Dog", typeof(Dog))
+			.Inheritance(x => x.Discriminator, "WildAnimal", typeof(WildAnimal))
 			.Property(x => x.Name).IsColumn().IsNullable().HasColumnName("Name")
 			.Property(x => x.Discriminator).IsDiscriminator().IsColumn().IsNullable(false).HasColumnName("Discriminator");
 
@@ -113,6 +117,9 @@ public class Issue994Tests : TestBase
 			.HasTableName("Animals")
 			.Property(x => x.Bla).IsNotColumn()
 			.Association(x => x.Bla, x => x.EyeId, x => x.Id);
+
+		mappingBuilder.Entity<WildAnimal>()
+			.HasTableName("Animals");
 
 		mappingBuilder.Entity<Eye>()
 			.HasTableName("Eyes")
