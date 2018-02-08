@@ -10,48 +10,48 @@ using NUnit.Framework;
 using Tests;
 using Tests.Model;
 
-public class A
-{
-	public A()
-	{
-		Discriminator = "A";
-	}
-
-	public int Id { get; set; }
-	public string PropA { get; set; }
-	public string Discriminator { get; set; }
-}
-
-public class B : A
-{
-	public B()
-	{
-		Discriminator = "B";
-	}
-
-	public string PropB { get; set; }
-}
-
-public class C : B
-{
-	public C()
-	{
-		Discriminator = "C";
-	}
-
-	public string PropC { get; set; }
-}
-
-public class Test
-{
-	public int Id { get; set; }
-	public int? TestAId { get; set; }
-	public A TestA { get; set; }
-}
-
 [TestFixture]
 public class Issue996Tests : TestBase
 {
+	public class A
+	{
+		public A()
+		{
+			Discriminator = "A";
+		}
+
+		public int Id { get; set; }
+		public string PropA { get; set; }
+		public string Discriminator { get; set; }
+	}
+
+	public class B : A
+	{
+		public B()
+		{
+			Discriminator = "B";
+		}
+
+		public string PropB { get; set; }
+	}
+
+	public class C : B
+	{
+		public C()
+		{
+			Discriminator = "C";
+		}
+
+		public string PropC { get; set; }
+	}
+
+	public class Test
+	{
+		public int Id { get; set; }
+		public int? TestAId { get; set; }
+		public A TestA { get; set; }
+	}
+
 	[Test]
 	public void LinqToDbIssue()
 	{
