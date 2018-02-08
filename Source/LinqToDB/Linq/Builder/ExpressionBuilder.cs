@@ -55,6 +55,7 @@ namespace LinqToDB.Linq.Builder
 			new OfTypeBuilder              (),
 			new AsUpdatableBuilder         (),
 			new LoadWithBuilder            (),
+			new LoadWithDerrivedBuilder    (),
 			new DropBuilder                (),
 			new ChangeTypeExpressionBuilder(),
 			new WithTableExpressionBuilder (),
