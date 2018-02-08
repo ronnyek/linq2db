@@ -161,7 +161,7 @@ namespace LinqToDB.Linq.Builder
 
 				foreach (var member in members)
 				{
-					if (member.MemberInfo.DeclaringType == objectType)
+					if (member.MemberInfo.DeclaringType.IsAssignableFrom(objectType))
 					{
 						var ma = Expression.MakeMemberAccess(Expression.Constant(null, objectType), member.MemberInfo);
 
