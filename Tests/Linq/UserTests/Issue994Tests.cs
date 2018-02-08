@@ -31,7 +31,11 @@ public class Issue994Tests : TestBase
 	{
 	}
 
-	public class Dog : WildAnimal
+	public class SuperWildAnimal : WildAnimal
+	{
+	}
+
+	public class Dog : SuperWildAnimal
 	{
 		public Eye Bla { get; set; }
 
@@ -110,6 +114,7 @@ public class Issue994Tests : TestBase
 			.HasTableName("Animals")
 			.Inheritance(x => x.Discriminator, "Dog", typeof(Dog))
 			.Inheritance(x => x.Discriminator, "WildAnimal", typeof(WildAnimal))
+			.Inheritance(x => x.Discriminator, "SuperWildAnimal", typeof(SuperWildAnimal))
 			.Property(x => x.Name).IsColumn().IsNullable().HasColumnName("Name")
 			.Property(x => x.Discriminator).IsDiscriminator().IsColumn().IsNullable(false).HasColumnName("Discriminator");
 
@@ -119,6 +124,9 @@ public class Issue994Tests : TestBase
 			.Association(x => x.Bla, x => x.EyeId, x => x.Id);
 
 		mappingBuilder.Entity<WildAnimal>()
+			.HasTableName("Animals");
+
+		mappingBuilder.Entity<SuperWildAnimal>()
 			.HasTableName("Animals");
 
 		mappingBuilder.Entity<Eye>()
